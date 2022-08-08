@@ -22,9 +22,9 @@ class HomeController extends StatelessWidget {
             ),
           );
         } else if (snapshot.hasData) {
-          return Center(child: FeedPage());
+          return const Center(child: FeedPage());
         } else {
-          return Center(child: LoginPage());
+          return const Center(child: LoginPage());
         }
       },
     );

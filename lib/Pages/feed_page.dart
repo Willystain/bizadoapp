@@ -19,6 +19,7 @@ class _FeedPageState extends State<FeedPage> {
         child: Column(
           children: [
             Text('Welcome o the feed'),
+            Text("Feed"),
             ElevatedButton(
                 onPressed: () {
                   AuthService().signOut();

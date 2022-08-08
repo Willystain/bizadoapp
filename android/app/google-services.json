@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "576063026092",
+    "project_id": "bizado-c5e96",
+    "storage_bucket": "bizado-c5e96.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:576063026092:android:6afdb080135358d3060009",
+        "android_client_info": {
+          "package_name": "com.example.bizado"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "576063026092-coiem4le04b2nl16rest0tuf19cueit3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.bizado",
+            "certificate_hash": "8f97428ff2da67134ccd9f852bfce93b4a37854e"
+          }
+        },
+        {
+          "client_id": "576063026092-1u17paof247re0vrrmef0rqie3ujhiqf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAYV8udqTVafpJ_3bfUMOGuYJ-y-VYmWTg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "576063026092-1u17paof247re0vrrmef0rqie3ujhiqf.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "576063026092-6k46km74vk91mkb6v7go4h4ihqnqtkm7.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.bizadoApp"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
