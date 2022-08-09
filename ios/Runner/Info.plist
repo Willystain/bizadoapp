@@ -2,6 +2,23 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+
+<key>CFBundleURLTypes</key>
+<array>
+  <dict>
+  <key>CFBundleURLSchemes</key>
+  <array>
+    <string>596637275348954</string>
+  </array>
+  </dict>
+</array>
+<key>FacebookAppID</key>
+<string>596637275348954</string>
+<key>FacebookClientToken</key>
+<string>c519d120320575fc3c5d87a0441188f5</string>
+<key>FacebookDisplayName</key>
+<string>Bizado</string>
+
 	<key>CADisableMinimumFrameDurationOnPhone</key>
 	<true/>
 	<key>CFBundleDevelopmentRegion</key>
@@ -30,6 +47,7 @@
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>com.googleusercontent.apps.576063026092-dm1p6pq3ta8a1dbj36pq7dhtpmor45gl</string>
+				<string>fb596637275348954</string>
 			</array>
 		</dict>
 	</array>

@@ -35,6 +35,11 @@ class LoginPage extends StatelessWidget {
                 icon: FontAwesomeIcons.google,
                 color: Colors.grey,
                 loginMethod: AuthService().googleLogin),
+            LoginButton(
+                text: "Logar com Facebook",
+                icon: FontAwesomeIcons.facebook,
+                color: Colors.grey,
+                loginMethod: AuthService().signInWithFacebook),
           ],
         ),
       ),

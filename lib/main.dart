@@ -4,12 +4,15 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 
 import 'Pages/login_page.dart';
 
 void main() async {
   Provider.debugCheckInvalidValueType = null;
   WidgetsFlutterBinding.ensureInitialized();
+  FacebookAuth.i.webInitialize(
+      appId: "596637275348954", cookie: true, xfbml: true, version: "v13.0");
   await Firebase.initializeApp();
 
   runApp(
