@@ -18,7 +18,7 @@ class _FeedPageState extends State<FeedPage> {
       body: Center(
         child: Column(
           children: [
-            Text('Welcome o the feed'),
+            Text(AuthService().user!.displayName.toString()),
             Text("Feed"),
             ElevatedButton(
                 onPressed: () {
