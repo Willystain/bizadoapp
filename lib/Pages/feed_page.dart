@@ -1,7 +1,7 @@
 import 'package:bizado/Services/Auth/auth_service.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
+
+import '../models/post_model.dart';
 
 class FeedPage extends StatefulWidget {
   const FeedPage({Key? key}) : super(key: key);
@@ -11,23 +11,48 @@ class FeedPage extends StatefulWidget {
 }
 
 class _FeedPageState extends State<FeedPage> {
+  var checks;
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text("feed")),
-      body: Center(
-        child: Column(
-          children: [
-            Text(AuthService().user!.displayName.toString()),
-            Text("Feed"),
-            ElevatedButton(
-                onPressed: () {
-                  AuthService().signOut();
-                },
-                child: Text('Sign Out'))
-          ],
-        ),
-      ),
+    return FutureBuilder<List<Post>>(
+      future: AuthService().postStream(),
+      builder: (
+        context,
+        snapshot,
+      ) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return Container(
+            child: CircularProgressIndicator(),
+          );
+        } else if (snapshot.hasError) {
+          return Center(
+            child: Text(snapshot.error.toString()),
+          );
+        } else if (snapshot.hasData) {
+          var posts = snapshot.data!;
+          return ListView.builder(
+            itemCount: posts.length,
+            itemBuilder: (context, int index) {
+              Post currentPost = posts[index];
+              if (currentPost.postValid == true) {
+                return ListTile(
+                  leading: Text(currentPost.postText.toString()),
+                  trailing: IconButton(
+                    onPressed: () {
+                      setState(() {});
+                    },
+                    icon: Icon(Icons.delete),
+                  ),
+                );
+              } else {
+                return Text("N tem item valido");
+              }
+            },
+          );
+        } else {
+          return const Text('No topics found in Firestore. Check database');
+        }
+      },
     );
   }
 }

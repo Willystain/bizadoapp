@@ -1,4 +1,4 @@
-import 'package:bizado/Pages/feed_page.dart';
+import 'package:bizado/Pages/home_page.dart';
 import 'package:bizado/Pages/login_page.dart';
 import 'package:bizado/Shared/error_screen.dart';
 import 'package:bizado/Shared/loading_screen.dart';
@@ -22,7 +22,7 @@ class HomeController extends StatelessWidget {
             ),
           );
         } else if (snapshot.hasData) {
-          return const Center(child: FeedPage());
+          return const Center(child: HomePage());
         } else {
           return const Center(child: LoginPage());
         }

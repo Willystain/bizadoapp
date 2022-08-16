@@ -1,9 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:bizado/models/user.dart' as model;
+import 'package:bizado/models/user_model.dart' as model;
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
+
+import '../../models/post_model.dart';
 
 class AuthService with ChangeNotifier {
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -67,6 +69,14 @@ class AuthService with ChangeNotifier {
     } on FirebaseAuthException catch (e) {
       // handle error
     }
+  }
+
+  Future<List<Post>> postStream() async {
+    var ref = db.collection('posts');
+    var snapshot = await ref.get();
+    var snap = snapshot;
+    var posts = snap.docs.map((e) => Post.fromSnap(e));
+    return posts.toList();
   }
 
   Future<void> signOut() async {
