@@ -1,5 +1,6 @@
 import 'package:bizado/Home/home_controller.dart';
 import 'package:bizado/Services/Auth/auth_service.dart';
+import 'package:bizado/Widgets/search_widget.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
@@ -41,6 +42,7 @@ class MyApp extends StatelessWidget {
       routes: {
         'login': (context) => LoginPage(),
         'homeController': (context) => HomeController(),
+        'searchPage': (context) => SearchBar(),
       },
       home: HomeController(),
     );

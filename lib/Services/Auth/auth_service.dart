@@ -72,7 +72,18 @@ class AuthService with ChangeNotifier {
   }
 
   Future<List<Post>> postStream() async {
-    var ref = db.collection('posts');
+    var ref = db.collection('posts').where('postValid', isEqualTo: true);
+    var snapshot = await ref.get();
+    var snap = snapshot;
+    var posts = snap.docs.map((e) => Post.fromSnap(e));
+    return posts.toList();
+  }
+
+  Future<List<Post>> postFilter(String city) async {
+    var ref = db
+        .collection('posts')
+        .where('postValid', isEqualTo: true)
+        .where('city', isEqualTo: city);
     var snapshot = await ref.get();
     var snap = snapshot;
     var posts = snap.docs.map((e) => Post.fromSnap(e));

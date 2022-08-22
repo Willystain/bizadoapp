@@ -1,7 +1,12 @@
 import 'package:bizado/Pages/feed_page.dart';
 import 'package:bizado/Pages/newPost_page.dart';
 import 'package:bizado/Pages/profile_page.dart';
+import 'package:bizado/Pages/search_page.dart';
 import 'package:bizado/Services/Auth/auth_service.dart';
+import 'package:bizado/Services/city_service.dart';
+import 'package:bizado/Services/hero_route.dart';
+import 'package:bizado/Widgets/button.dart';
+import 'package:bizado/Widgets/search_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -22,24 +27,47 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: NestedScrollView(
-        headerSliverBuilder: ((context, innerBoxIsScrolled) => [
-              SliverAppBar(
-                title: Text('NewAppBar'),
-                centerTitle: true,
-                actions: <Widget>[
-                  IconButton(
-                      icon: const Icon(
-                        Icons.logout_outlined,
-                        size: 30,
-                      ),
-                      onPressed: () {
-                        AuthService().signOut();
-                      }),
-                ],
-              ),
-            ]),
-        body: _pages[_selectedIndex],
+      appBar: AppBar(
+          backgroundColor: Colors.white,
+          centerTitle: true,
+          title: Padding(
+            padding: EdgeInsets.only(right: 30),
+            child: Hero(
+                tag: "search",
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.of(context)
+                        .push(HeroDialogRoute(builder: (context) {
+                      return const SearchPage();
+                    }));
+                  },
+                  child: Material(
+                    color: Colors.white,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          "Pesquisar",
+                          style: TextStyle(fontSize: 20),
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Icon(
+                          Icons.search,
+                          color: Colors.black,
+                          size: 30,
+                        )
+                      ],
+                    ),
+                  ),
+                )),
+          )),
+      body: Column(
+        children: [_pages[_selectedIndex]],
       ),
       bottomNavigationBar: ConvexAppBar(
         style: TabStyle.react,

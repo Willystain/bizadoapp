@@ -1,4 +1,5 @@
 import 'package:bizado/Services/Auth/auth_service.dart';
+import 'package:bizado/Widgets/search_widget.dart';
 import 'package:flutter/material.dart';
 
 import '../models/post_model.dart';
@@ -30,24 +31,33 @@ class _FeedPageState extends State<FeedPage> {
           );
         } else if (snapshot.hasData) {
           var posts = snapshot.data!;
-          return ListView.builder(
-            itemCount: posts.length,
-            itemBuilder: (context, int index) {
-              Post currentPost = posts[index];
-              if (currentPost.postValid == true) {
-                return ListTile(
-                  leading: Text(currentPost.postText.toString()),
-                  trailing: IconButton(
-                    onPressed: () {
-                      setState(() {});
-                    },
-                    icon: Icon(Icons.delete),
+          return Expanded(
+            child: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(20, 40, 20, 5),
+                  child: SearchBar(),
+                ),
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                    child: ListView.builder(
+                      itemCount: posts.length,
+                      itemBuilder: (context, int index) {
+                        Post currentPost = posts[index];
+                        return ListTile(
+                          leading: Text(currentPost.postText.toString()),
+                          trailing: IconButton(
+                            onPressed: () {},
+                            icon: Icon(Icons.delete),
+                          ),
+                        );
+                      },
+                    ),
                   ),
-                );
-              } else {
-                return Text("N tem item valido");
-              }
-            },
+                ),
+              ],
+            ),
           );
         } else {
           return const Text('No topics found in Firestore. Check database');
