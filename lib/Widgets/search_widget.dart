@@ -61,6 +61,7 @@ class _SearchBarState extends State<SearchBar> {
               );
             },
             onSelected: (String city) {
+              //CHAMAR LISTA FILTRADA
               print(city);
               currentFocus.unfocus();
               print(currentFocus.hasPrimaryFocus);
