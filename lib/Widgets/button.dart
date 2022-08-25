@@ -1,4 +1,4 @@
-import 'package:bizado/Pages/search_page.dart';
+import 'package:bizado/Pages/feed_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -16,7 +16,7 @@ class Button extends StatelessWidget {
         onTap: () {
           Navigator.of(context).push(HeroDialogRoute(
             builder: (context) {
-              return const SearchPage();
+              return const FeedPage();
             },
           ));
         },

@@ -35,7 +35,7 @@ class _FeedPageState extends State<FeedPage> {
             child: Column(
               children: [
                 Padding(
-                  padding: const EdgeInsets.fromLTRB(20, 40, 20, 5),
+                  padding: const EdgeInsets.fromLTRB(20, 30, 20, 5),
                   child: SearchBar(),
                 ),
                 Expanded(

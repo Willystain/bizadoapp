@@ -15,9 +15,6 @@ class _SearchBarState extends State<SearchBar> {
     FocusScopeNode currentFocus = FocusScope.of(context);
     bool toggle = false;
 
-    print(currentFocus.hasPrimaryFocus);
-    print(currentFocus.isFirstFocus);
-
     if (currentFocus.hasPrimaryFocus == false) {
       toggle = true;
     }
@@ -36,8 +33,35 @@ class _SearchBarState extends State<SearchBar> {
                 return CityService.getSuggestions(textEditingValue.text);
               }
             },
+            optionsViewBuilder:
+                (context, Function(String) onSelected, options) {
+              return Align(
+                alignment: Alignment.topLeft,
+                child: Material(
+                  borderRadius: BorderRadius.circular(10),
+                  elevation: 4,
+                  child: SizedBox(
+                    width: 390,
+                    child: ListView.builder(
+                      padding: EdgeInsets.all(0),
+                      itemBuilder: ((context, index) {
+                        final option = options.elementAt(index);
+                        return ListTile(
+                          leading: Icon(Icons.location_city_sharp),
+                          title: Text(option.toString()),
+                          onTap: () {
+                            onSelected(option.toString());
+                          },
+                        );
+                      }),
+                      itemCount: options.length,
+                    ),
+                  ),
+                ),
+              );
+            },
             onSelected: (String city) {
-              print('aaaa');
+              print(city);
               currentFocus.unfocus();
               print(currentFocus.hasPrimaryFocus);
             },
@@ -82,11 +106,14 @@ class _SearchBarState extends State<SearchBar> {
           ),
         ),
         Visibility(
-          child: ElevatedButton(
-            onPressed: () {
-              currentFocus.unfocus();
-            },
-            child: Text("aa"),
+          child: Padding(
+            padding: const EdgeInsets.only(left: 10),
+            child: ElevatedButton(
+              onPressed: () {
+                currentFocus.unfocus();
+              },
+              child: Text("Voltar"),
+            ),
           ),
           visible: toggle,
         ),

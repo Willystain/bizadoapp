@@ -1,7 +1,6 @@
 import 'package:bizado/Pages/feed_page.dart';
 import 'package:bizado/Pages/newPost_page.dart';
 import 'package:bizado/Pages/profile_page.dart';
-import 'package:bizado/Pages/search_page.dart';
 import 'package:bizado/Services/Auth/auth_service.dart';
 import 'package:bizado/Services/city_service.dart';
 import 'package:bizado/Services/hero_route.dart';
@@ -35,12 +34,7 @@ class _HomePageState extends State<HomePage> {
             child: Hero(
                 tag: "search",
                 child: GestureDetector(
-                  onTap: () {
-                    Navigator.of(context)
-                        .push(HeroDialogRoute(builder: (context) {
-                      return const SearchPage();
-                    }));
-                  },
+                  onTap: () {},
                   child: Material(
                     color: Colors.white,
                     shape: RoundedRectangleBorder(
@@ -50,17 +44,9 @@ class _HomePageState extends State<HomePage> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          "Pesquisar",
+                          "Bizado",
                           style: TextStyle(fontSize: 20),
                         ),
-                        SizedBox(
-                          width: 10,
-                        ),
-                        Icon(
-                          Icons.search,
-                          color: Colors.black,
-                          size: 30,
-                        )
                       ],
                     ),
                   ),
