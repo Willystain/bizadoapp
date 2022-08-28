@@ -3,8 +3,6 @@ import 'package:bizado/Pages/newPost_page.dart';
 import 'package:bizado/Pages/profile_page.dart';
 import 'package:bizado/Services/Auth/auth_service.dart';
 import 'package:bizado/Services/city_service.dart';
-import 'package:bizado/Services/hero_route.dart';
-import 'package:bizado/Widgets/button.dart';
 import 'package:bizado/Widgets/search_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
@@ -29,6 +27,14 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
           backgroundColor: Colors.white,
           centerTitle: true,
+          leading: IconButton(
+              onPressed: () {
+                AuthService().signOut();
+              },
+              icon: const Icon(
+                Icons.logout,
+                color: Colors.black,
+              )),
           title: Padding(
             padding: EdgeInsets.only(right: 30),
             child: Hero(
@@ -44,7 +50,7 @@ class _HomePageState extends State<HomePage> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          "Bizado",
+                          AuthService().user!.displayName.toString(),
                           style: TextStyle(fontSize: 20),
                         ),
                       ],

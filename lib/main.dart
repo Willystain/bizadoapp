@@ -1,5 +1,8 @@
 import 'package:bizado/Home/home_controller.dart';
+import 'package:bizado/Pages/newPost_page.dart';
 import 'package:bizado/Services/Auth/auth_service.dart';
+import 'package:bizado/Services/global_variables.dart';
+import 'package:bizado/Services/post_service.dart';
 import 'package:bizado/Widgets/search_widget.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -21,7 +24,13 @@ void main() async {
       providers: [
         Provider<AuthService>(
           create: (context) => AuthService(),
-        )
+        ),
+        Provider<GlobalVariables>(
+          create: (context) => GlobalVariables(),
+        ),
+        Provider<PostService>(
+          create: (context) => PostService(),
+        ),
       ],
       child: const MyApp(),
     ),

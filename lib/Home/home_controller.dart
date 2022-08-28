@@ -1,3 +1,4 @@
+import 'package:bizado/Pages/createName_page.dart';
 import 'package:bizado/Pages/home_page.dart';
 import 'package:bizado/Pages/login_page.dart';
 import 'package:bizado/Shared/error_screen.dart';
@@ -22,7 +23,11 @@ class HomeController extends StatelessWidget {
             ),
           );
         } else if (snapshot.hasData) {
-          return const Center(child: HomePage());
+          if (AuthService().user!.emailVerified) {
+            return HomePage();
+          } else {
+            return CreateName();
+          }
         } else {
           return const Center(child: LoginPage());
         }

@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Post {
+  String city = '';
   String postText = '';
   String userName = '';
   String postId = '';
@@ -8,7 +9,8 @@ class Post {
   DocumentReference docRef;
 
   Post(
-      {required this.postId,
+      {required this.city,
+      required this.postId,
       required this.postText,
       required this.userName,
       required this.docRef,
@@ -18,6 +20,7 @@ class Post {
     var snapshot = snap.data() as Map<String, dynamic>;
 
     return Post(
+        city: snapshot["city"],
         postId: snap.id,
         postText: snapshot["postText"],
         userName: snapshot["userName"],
@@ -26,6 +29,7 @@ class Post {
 
   factory Post.fromDocument(DocumentSnapshot snap) {
     return Post(
+        city: snap['city'],
         postId: snap['postId'],
         postText: snap["postText"],
         userName: snap["userName"],

@@ -1,7 +1,9 @@
 import 'package:bizado/Services/Auth/auth_service.dart';
+import 'package:bizado/Services/global_variables.dart';
+import 'package:bizado/Services/post_service.dart';
 import 'package:bizado/Widgets/search_widget.dart';
 import 'package:flutter/material.dart';
-
+import 'package:provider/provider.dart';
 import '../models/post_model.dart';
 
 class FeedPage extends StatefulWidget {
@@ -15,15 +17,23 @@ class _FeedPageState extends State<FeedPage> {
   var checks;
   @override
   Widget build(BuildContext context) {
+    final controller = Provider.of<GlobalVariables>(context);
+    final post = Provider.of<PostService>(context);
+    print(controller.cityGlobal);
     return FutureBuilder<List<Post>>(
-      future: AuthService().postStream(),
+      future: controller.cityGlobal.isEmpty
+          ? post.postStream()
+          : post.postFilter(controller.cityGlobal),
       builder: (
         context,
         snapshot,
       ) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return Container(
-            child: CircularProgressIndicator(),
+          return Padding(
+            padding: const EdgeInsets.only(top: 300),
+            child: Container(
+              child: Center(child: const CircularProgressIndicator()),
+            ),
           );
         } else if (snapshot.hasError) {
           return Center(
@@ -34,7 +44,7 @@ class _FeedPageState extends State<FeedPage> {
           return Expanded(
             child: Column(
               children: [
-                Padding(
+                const Padding(
                   padding: const EdgeInsets.fromLTRB(20, 30, 20, 5),
                   child: SearchBar(),
                 ),
@@ -49,7 +59,7 @@ class _FeedPageState extends State<FeedPage> {
                           leading: Text(currentPost.postText.toString()),
                           trailing: IconButton(
                             onPressed: () {},
-                            icon: Icon(Icons.delete),
+                            icon: const Icon(Icons.delete),
                           ),
                         );
                       },

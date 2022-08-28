@@ -1,4 +1,7 @@
+import 'package:bizado/Pages/feed_page.dart';
+import 'package:bizado/Services/global_variables.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../Services/city_service.dart';
 
@@ -12,6 +15,8 @@ class SearchBar extends StatefulWidget {
 class _SearchBarState extends State<SearchBar> {
   @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<GlobalVariables>(context);
+
     FocusScopeNode currentFocus = FocusScope.of(context);
     bool toggle = false;
 
@@ -50,6 +55,12 @@ class _SearchBarState extends State<SearchBar> {
                           leading: Icon(Icons.location_city_sharp),
                           title: Text(option.toString()),
                           onTap: () {
+                            setState(() {
+                              provider.transform(option.toString());
+                              provider.cityGlobal;
+                              print(provider.cityGlobal);
+                              FeedPage();
+                            });
                             onSelected(option.toString());
                           },
                         );
@@ -62,9 +73,7 @@ class _SearchBarState extends State<SearchBar> {
             },
             onSelected: (String city) {
               //CHAMAR LISTA FILTRADA
-              print(city);
               currentFocus.unfocus();
-              print(currentFocus.hasPrimaryFocus);
             },
             optionsMaxHeight: 500,
             fieldViewBuilder:
@@ -83,7 +92,10 @@ class _SearchBarState extends State<SearchBar> {
                             )
                           : IconButton(
                               onPressed: () {
-                                controller.clear();
+                                setState(() {
+                                  provider.cityGlobal = '';
+                                  controller.clear();
+                                });
                               },
                               icon: Icon(Icons.close)),
                       alignLabelWithHint: true,
