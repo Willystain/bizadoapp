@@ -7,6 +7,7 @@ import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import '../Services/city_service.dart';
 
 class NewPostPage extends StatefulWidget {
@@ -23,7 +24,7 @@ class _NewPostPageState extends State<NewPostPage> {
     final auth = Provider.of<AuthService>(context);
     final post = Provider.of<PostService>(context);
     print('build newPostPage');
-    String cityValue = controller.cityGlobal;
+    String cityValue = controller.cityCreatePost;
     String PostText = '';
     String userName =
         auth.user!.emailVerified ? auth.user!.displayName.toString() : 'noUser';
@@ -56,7 +57,7 @@ class _NewPostPageState extends State<NewPostPage> {
                 onPressed: () {
                   var idGenerator = Uuid().v4();
                   setState(() {
-                    cityValue = controller.cityGlobal;
+                    cityValue = controller.cityCreatePost;
                     print({'$cityValue cityvalue'});
                     post.createPost(map: {
                       'postText': postTextValue.text,
@@ -64,6 +65,7 @@ class _NewPostPageState extends State<NewPostPage> {
                       'postValid': true,
                       'userName': userName,
                       'postId': idGenerator,
+                      'postDate': Timestamp.fromDate(DateTime.now()),
                     }, postId: idGenerator);
                   });
                 },

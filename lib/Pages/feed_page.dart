@@ -7,8 +7,6 @@ import 'package:provider/provider.dart';
 import '../models/post_model.dart';
 
 class FeedPage extends StatefulWidget {
-  const FeedPage({Key? key}) : super(key: key);
-
   @override
   State<FeedPage> createState() => _FeedPageState();
 }
@@ -19,11 +17,10 @@ class _FeedPageState extends State<FeedPage> {
   Widget build(BuildContext context) {
     final controller = Provider.of<GlobalVariables>(context);
     final post = Provider.of<PostService>(context);
+
     print(controller.cityGlobal);
     return FutureBuilder<List<Post>>(
-      future: controller.cityGlobal.isEmpty
-          ? post.postStream()
-          : post.postFilter(controller.cityGlobal),
+      future: post.postFilter(controller.cityGlobal),
       builder: (
         context,
         snapshot,
@@ -36,18 +33,21 @@ class _FeedPageState extends State<FeedPage> {
             ),
           );
         } else if (snapshot.hasError) {
+          print(snapshot.error);
           return Center(
             child: Text(snapshot.error.toString()),
           );
         } else if (snapshot.hasData) {
           var posts = snapshot.data!;
+          if (posts.length < 1) {
+            return Center(
+              child: Text('Sem resultado'),
+            );
+          }
+
           return Expanded(
             child: Column(
               children: [
-                const Padding(
-                  padding: const EdgeInsets.fromLTRB(20, 30, 20, 5),
-                  child: SearchBar(),
-                ),
                 Expanded(
                   child: Padding(
                     padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),

@@ -20,19 +20,22 @@ void main() async {
   await Firebase.initializeApp();
 
   runApp(
-    MultiProvider(
-      providers: [
-        Provider<AuthService>(
-          create: (context) => AuthService(),
-        ),
-        Provider<GlobalVariables>(
-          create: (context) => GlobalVariables(),
-        ),
-        Provider<PostService>(
-          create: (context) => PostService(),
-        ),
-      ],
-      child: const MyApp(),
+    ChangeNotifierProvider(
+      create: (_) => GlobalVariables(),
+      child: MultiProvider(
+        providers: [
+          Provider<AuthService>(
+            create: (context) => AuthService(),
+          ),
+          // Provider<GlobalVariables>(
+          //   create: (context) => GlobalVariables(),
+          // ),
+          Provider<PostService>(
+            create: (context) => PostService(),
+          ),
+        ],
+        child: const MyApp(),
+      ),
     ),
   );
 }

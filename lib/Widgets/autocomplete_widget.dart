@@ -53,13 +53,8 @@ class _AutoCompleteFieldState extends State<AutoCompleteField> {
         );
       },
       onSelected: (String city) {
-        setState(() {
-          controller.transform(city);
-          controller.cityGlobal;
-          print('chamou');
-        });
-
-        print(controller.cityGlobal);
+        controller.transformCityCreatePost(city);
+        controller.cityCreatePost;
       },
       optionsMaxHeight: 500,
     );

@@ -1,13 +1,12 @@
 import 'package:bizado/Pages/feed_page.dart';
 import 'package:bizado/Services/global_variables.dart';
+import 'package:bizado/Services/post_service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../Services/city_service.dart';
 
 class SearchBar extends StatefulWidget {
-  const SearchBar({Key? key}) : super(key: key);
-
   @override
   State<SearchBar> createState() => _SearchBarState();
 }
@@ -16,6 +15,7 @@ class _SearchBarState extends State<SearchBar> {
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<GlobalVariables>(context);
+    final post = Provider.of<PostService>(context);
 
     FocusScopeNode currentFocus = FocusScope.of(context);
     bool toggle = false;
@@ -55,12 +55,6 @@ class _SearchBarState extends State<SearchBar> {
                           leading: Icon(Icons.location_city_sharp),
                           title: Text(option.toString()),
                           onTap: () {
-                            setState(() {
-                              provider.transform(option.toString());
-                              provider.cityGlobal;
-                              print(provider.cityGlobal);
-                              FeedPage();
-                            });
                             onSelected(option.toString());
                           },
                         );
@@ -73,11 +67,19 @@ class _SearchBarState extends State<SearchBar> {
             },
             onSelected: (String city) {
               //CHAMAR LISTA FILTRADA
+              setState(() {
+                provider.transform(city);
+                provider.cityGlobal;
+              });
+
               currentFocus.unfocus();
             },
             optionsMaxHeight: 500,
             fieldViewBuilder:
                 (context, controller, currentFocus, onEditingComplete) {
+              if (provider.cityGlobal.length < 1) {
+                controller.clear();
+              }
               return Padding(
                 padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
                 child: TextField(
@@ -85,19 +87,6 @@ class _SearchBarState extends State<SearchBar> {
                   focusNode: currentFocus,
                   onEditingComplete: onEditingComplete,
                   decoration: InputDecoration(
-                      suffixIcon: controller.value.text.isEmpty
-                          ? Visibility(
-                              child: Icon(Icons.abc),
-                              visible: false,
-                            )
-                          : IconButton(
-                              onPressed: () {
-                                setState(() {
-                                  provider.cityGlobal = '';
-                                  controller.clear();
-                                });
-                              },
-                              icon: Icon(Icons.close)),
                       alignLabelWithHint: true,
                       prefixIcon: Icon(Icons.search),
                       border: OutlineInputBorder(

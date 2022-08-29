@@ -5,9 +5,12 @@ import 'package:bizado/Services/Auth/auth_service.dart';
 import 'package:bizado/Services/city_service.dart';
 import 'package:bizado/Widgets/search_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:convex_bottom_bar/convex_bottom_bar.dart';
+
+import '../Services/global_variables.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -16,13 +19,32 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
+FocusNode _focus = FocusNode();
 int _selectedIndex = 0;
-
-const List<Widget> _pages = <Widget>[FeedPage(), NewPostPage(), ProfilePage()];
 
 class _HomePageState extends State<HomePage> {
   @override
+  void initState() {
+    super.initState();
+    _focus.addListener(_onFocusChange);
+  }
+
+  void _onFocusChange() {
+    debugPrint("Focus: ${_focus.hasFocus.toString()}");
+
+    setState(() {});
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final controller = Provider.of<GlobalVariables>(context);
+
+    final List<Widget> _pages = <Widget>[
+      FeedPage(),
+      NewPostPage(),
+      ProfilePage()
+    ];
+
     return Scaffold(
       appBar: AppBar(
           backgroundColor: Colors.white,
@@ -59,7 +81,24 @@ class _HomePageState extends State<HomePage> {
                 )),
           )),
       body: Column(
-        children: [_pages[_selectedIndex]],
+        children: [
+          Row(
+            children: [
+              Expanded(child: SearchBar()),
+              Visibility(
+                  visible: controller.cityGlobal.length > 1,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      setState(() {
+                        controller.cityGlobal = "";
+                      });
+                    },
+                    child: Text("Limpar"),
+                  )),
+            ],
+          ),
+          _pages[_selectedIndex]
+        ],
       ),
       bottomNavigationBar: ConvexAppBar(
         style: TabStyle.react,

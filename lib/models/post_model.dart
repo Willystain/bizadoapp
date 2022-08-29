@@ -5,12 +5,15 @@ class Post {
   String postText = '';
   String userName = '';
   String postId = '';
+  Timestamp postDate;
+
   bool postValid = true;
   DocumentReference docRef;
 
   Post(
       {required this.city,
       required this.postId,
+      required this.postDate,
       required this.postText,
       required this.userName,
       required this.docRef,
@@ -22,6 +25,7 @@ class Post {
     return Post(
         city: snapshot["city"],
         postId: snap.id,
+        postDate: snapshot['postDate'],
         postText: snapshot["postText"],
         userName: snapshot["userName"],
         docRef: snap.reference);
@@ -30,6 +34,7 @@ class Post {
   factory Post.fromDocument(DocumentSnapshot snap) {
     return Post(
         city: snap['city'],
+        postDate: snap['postDate'],
         postId: snap['postId'],
         postText: snap["postText"],
         userName: snap["userName"],

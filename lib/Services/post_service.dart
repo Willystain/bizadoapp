@@ -20,14 +20,28 @@ class PostService with ChangeNotifier {
   }
 
   Future<List<Post>> postFilter(String city) async {
-    var ref = db
-        .collection('posts')
-        .where('postValid', isEqualTo: true)
-        .where('city', isEqualTo: city);
-    var snapshot = await ref.get();
-    var snap = snapshot;
-    var posts = snap.docs.map((e) => Post.fromSnap(e));
-    return posts.toList();
+    if (city.length < 1) {
+      print('GLOBAL VAZIO');
+      var ref = db
+          .collection('posts')
+          .where('postValid', isEqualTo: true)
+          .orderBy('postDate');
+
+      var snapshot = await ref.get();
+      var snap = snapshot;
+      var posts = snap.docs.map((e) => Post.fromSnap(e));
+      return posts.toList();
+    } else {
+      var ref = db
+          .collection('posts')
+          .where('postValid', isEqualTo: true)
+          .where('city', isEqualTo: city);
+
+      var snapshot = await ref.get();
+      var snap = snapshot;
+      var posts = snap.docs.map((e) => Post.fromSnap(e));
+      return posts.toList();
+    }
   }
 
   Future<void> createPost({map = Map<String, dynamic>, postId = String}) async {
