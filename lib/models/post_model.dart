@@ -1,17 +1,19 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Post {
-  String city = '';
+  String city;
   String postText = '';
   String userName = '';
   String postId = '';
   Timestamp postDate;
+  String jobType = '';
 
   bool postValid = true;
   DocumentReference docRef;
 
   Post(
-      {required this.city,
+      {required this.jobType,
+      required this.city,
       required this.postId,
       required this.postDate,
       required this.postText,
@@ -23,6 +25,7 @@ class Post {
     var snapshot = snap.data() as Map<String, dynamic>;
 
     return Post(
+        jobType: snapshot['jobType'],
         city: snapshot["city"],
         postId: snap.id,
         postDate: snapshot['postDate'],
@@ -33,6 +36,7 @@ class Post {
 
   factory Post.fromDocument(DocumentSnapshot snap) {
     return Post(
+        jobType: snap['jobType'],
         city: snap['city'],
         postDate: snap['postDate'],
         postId: snap['postId'],

@@ -2,25 +2,21 @@ import 'package:bizado/Services/Auth/auth_service.dart';
 import 'package:bizado/Services/global_variables.dart';
 import 'package:bizado/Services/post_service.dart';
 import 'package:bizado/Widgets/search_widget.dart';
+import 'package:bizado/main.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import '../models/post_model.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class FeedPage extends StatefulWidget {
+class FeedPage extends ConsumerStatefulWidget {
   @override
-  State<FeedPage> createState() => _FeedPageState();
+  ConsumerState<FeedPage> createState() => _FeedPageState();
 }
 
-class _FeedPageState extends State<FeedPage> {
-  var checks;
+class _FeedPageState extends ConsumerState<FeedPage> {
   @override
   Widget build(BuildContext context) {
-    final controller = Provider.of<GlobalVariables>(context);
-    final post = Provider.of<PostService>(context);
-
-    print(controller.cityGlobal);
     return FutureBuilder<List<Post>>(
-      future: post.postFilter(controller.cityGlobal),
+      future: ref.watch(postProvider.future),
       builder: (
         context,
         snapshot,

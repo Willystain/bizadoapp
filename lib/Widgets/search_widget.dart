@@ -1,21 +1,23 @@
 import 'package:bizado/Pages/feed_page.dart';
 import 'package:bizado/Services/global_variables.dart';
 import 'package:bizado/Services/post_service.dart';
+import 'package:bizado/main.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../Services/city_service.dart';
 
-class SearchBar extends StatefulWidget {
+class SearchBar extends ConsumerStatefulWidget {
   @override
-  State<SearchBar> createState() => _SearchBarState();
+  ConsumerState<SearchBar> createState() => _SearchBarState();
 }
 
-class _SearchBarState extends State<SearchBar> {
+class _SearchBarState extends ConsumerState<SearchBar> {
   @override
   Widget build(BuildContext context) {
-    final provider = Provider.of<GlobalVariables>(context);
-    final post = Provider.of<PostService>(context);
+    // final provider = Provider.of<GlobalVariables>(context);
+    // final post = Provider.of<PostService>(context);
 
     FocusScopeNode currentFocus = FocusScope.of(context);
     bool toggle = false;
@@ -68,56 +70,72 @@ class _SearchBarState extends State<SearchBar> {
             onSelected: (String city) {
               //CHAMAR LISTA FILTRADA
               setState(() {
-                provider.transform(city);
-                provider.cityGlobal;
+                ref.watch(cityProvider.notifier).state = city;
               });
 
               currentFocus.unfocus();
             },
             optionsMaxHeight: 500,
             fieldViewBuilder:
-                (context, controller, currentFocus, onEditingComplete) {
-              if (provider.cityGlobal.length < 1) {
+                (context, controller, currentFocusText, onEditingComplete) {
+              if (ref.watch(cityProvider.notifier).state.length < 1) {
                 controller.clear();
               }
-              return Padding(
-                padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
-                child: TextField(
-                  controller: controller,
-                  focusNode: currentFocus,
-                  onEditingComplete: onEditingComplete,
-                  decoration: InputDecoration(
-                      alignLabelWithHint: true,
-                      prefixIcon: Icon(Icons.search),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(9),
-                        borderSide: BorderSide(color: Colors.grey[300]!),
+              return Row(
+                children: [
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+                      child: TextField(
+                        controller: controller,
+                        focusNode: currentFocusText,
+                        onEditingComplete: onEditingComplete,
+                        decoration: InputDecoration(
+                            alignLabelWithHint: true,
+                            prefixIcon: Icon(Icons.search),
+                            suffixIcon: Visibility(
+                              visible: ref.watch(cityProvider).length > 1,
+                              child: IconButton(
+                                onPressed: () {
+                                  setState(() {
+                                    ref.read(cityProvider.notifier).state = '';
+                                  });
+                                },
+                                icon: Icon(Icons.close),
+                              ),
+                            ),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(9),
+                              borderSide: BorderSide(color: Colors.grey[300]!),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(9),
+                              borderSide: BorderSide(color: Colors.grey[300]!),
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(9),
+                              borderSide: BorderSide(color: Colors.grey[300]!),
+                            ),
+                            hintText: "Qual cidade?"),
                       ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(9),
-                        borderSide: BorderSide(color: Colors.grey[300]!),
+                    ),
+                  ),
+                  Visibility(
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 10),
+                      child: ElevatedButton(
+                        onPressed: () {
+                          currentFocus.unfocus();
+                        },
+                        child: Text("Voltar"),
                       ),
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(9),
-                        borderSide: BorderSide(color: Colors.grey[300]!),
-                      ),
-                      hintText: "Qual cidade?"),
-                ),
+                    ),
+                    visible: currentFocusText.hasFocus,
+                  ),
+                ],
               );
             },
           ),
-        ),
-        Visibility(
-          child: Padding(
-            padding: const EdgeInsets.only(left: 10),
-            child: ElevatedButton(
-              onPressed: () {
-                currentFocus.unfocus();
-              },
-              child: Text("Voltar"),
-            ),
-          ),
-          visible: toggle,
         ),
       ],
     );

@@ -11,17 +11,9 @@ class PostService with ChangeNotifier {
   final user = FirebaseAuth.instance.currentUser;
   final FirebaseFirestore db = FirebaseFirestore.instance;
 
-  Future<List<Post>> postStream() async {
-    var ref = db.collection('posts').where('postValid', isEqualTo: true);
-    var snapshot = await ref.get();
-    var snap = snapshot;
-    var posts = snap.docs.map((e) => Post.fromSnap(e));
-    return posts.toList();
-  }
-
   Future<List<Post>> postFilter(String city) async {
     if (city.length < 1) {
-      print('GLOBAL VAZIO');
+      print('sem filtro');
       var ref = db
           .collection('posts')
           .where('postValid', isEqualTo: true)
