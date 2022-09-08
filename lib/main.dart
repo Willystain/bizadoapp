@@ -19,9 +19,14 @@ final cityProvider = StateProvider<String>((ref) {
   return "";
 });
 
+final jobType = StateProvider<String>((ref) {
+  return "Carpinteiro";
+});
+
 final postProvider = FutureProvider((ref) async {
   final city = ref.watch(cityProvider);
-  return PostService().postFilter(city);
+  final jobT = ref.watch(jobType);
+  return PostService().postFilter(city, jobT);
 });
 
 //RIVERPOD VARIABLES AND PROVIDERS

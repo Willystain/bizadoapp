@@ -37,19 +37,10 @@ class _HomePageState extends ConsumerState<HomePage> {
   @override
   void initState() {
     super.initState();
-    // _focus.addListener(_onFocusChange);
   }
-
-  // void _onFocusChange() {
-  //   debugPrint("Focus: ${_focus.hasFocus.toString()}");
-
-  //   setState(() {});
-  // }
 
   @override
   Widget build(BuildContext context) {
-    // final controller = Provider.of<GlobalVariables>(context);
-
     final List<Widget> _pages = <Widget>[
       FeedPage(),
       NewPostPage(),
@@ -107,6 +98,7 @@ class _HomePageState extends ConsumerState<HomePage> {
               // This is called when the user selects an item.
               setState(() {
                 dropdownValue = value!;
+                ref.read(jobType.notifier).state = value;
               });
             },
             items: list.map<DropdownMenuItem<String>>((String value) {
@@ -116,6 +108,7 @@ class _HomePageState extends ConsumerState<HomePage> {
               );
             }).toList(),
           ),
+          // ElevatedButton(onPressed: () {}, child: Text("Filtrar")),
           _pages[_selectedIndex]
         ],
       ),

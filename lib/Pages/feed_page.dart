@@ -1,6 +1,7 @@
 import 'package:bizado/Services/Auth/auth_service.dart';
 import 'package:bizado/Services/global_variables.dart';
 import 'package:bizado/Services/post_service.dart';
+import 'package:bizado/Widgets/card_widget.dart';
 import 'package:bizado/Widgets/search_widget.dart';
 import 'package:bizado/main.dart';
 import 'package:flutter/material.dart';
@@ -51,13 +52,11 @@ class _FeedPageState extends ConsumerState<FeedPage> {
                       itemCount: posts.length,
                       itemBuilder: (context, int index) {
                         Post currentPost = posts[index];
-                        return ListTile(
-                          leading: Text(currentPost.postText.toString()),
-                          trailing: IconButton(
-                            onPressed: () {},
-                            icon: const Icon(Icons.delete),
-                          ),
-                        );
+                        return buildCard(
+                            postDate: currentPost.postDate.toDate(),
+                            city: currentPost.city,
+                            jobType: currentPost.jobType,
+                            postText: currentPost.postText);
                       },
                     ),
                   ),

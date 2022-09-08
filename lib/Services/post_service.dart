@@ -11,13 +11,25 @@ class PostService with ChangeNotifier {
   final user = FirebaseAuth.instance.currentUser;
   final FirebaseFirestore db = FirebaseFirestore.instance;
 
-  Future<List<Post>> postFilter(String city) async {
+  Future<List<Post>> postFilter(String city, String jobType) async {
     if (city.length < 1) {
       print('sem filtro');
       var ref = db
           .collection('posts')
           .where('postValid', isEqualTo: true)
           .orderBy('postDate');
+
+      var snapshot = await ref.get();
+      var snap = snapshot;
+      var posts = snap.docs.map((e) => Post.fromSnap(e));
+      return posts.toList();
+    }
+    if (jobType != 'Todos') {
+      var ref = db
+          .collection('posts')
+          .where('postValid', isEqualTo: true)
+          .where('city', isEqualTo: city)
+          .where('jobType', isEqualTo: jobType);
 
       var snapshot = await ref.get();
       var snap = snapshot;
