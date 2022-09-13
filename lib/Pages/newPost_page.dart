@@ -1,39 +1,30 @@
 import 'package:bizado/Services/Auth/auth_service.dart';
-import 'package:bizado/Services/global_variables.dart';
 import 'package:bizado/Widgets/autocomplete_widget.dart';
+import 'package:bizado/Widgets/dropDown_jobType.dart';
 import 'package:flutter/material.dart';
 import 'package:bizado/Services/post_service.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import '../Services/city_service.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../Services/post_service.dart';
+import '../Services/setup_riverPod.dart';
 
-class NewPostPage extends StatefulWidget {
+class NewPostPage extends ConsumerStatefulWidget {
   const NewPostPage({Key? key}) : super(key: key);
 
   @override
-  State<NewPostPage> createState() => _NewPostPageState();
+  ConsumerState<NewPostPage> createState() => _NewPostPageState();
 }
 
-class _NewPostPageState extends State<NewPostPage> {
+class _NewPostPageState extends ConsumerState<NewPostPage> {
+  TextEditingController postTextValue = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
-    final controller = Provider.of<GlobalVariables>(context, listen: true);
-    final auth = Provider.of<AuthService>(context);
-    final post = Provider.of<PostService>(context);
     print('build newPostPage');
-    String cityValue = controller.cityCreatePost;
-    String PostText = '';
-    String userName =
-        auth.user!.emailVerified ? auth.user!.displayName.toString() : 'noUser';
-    TextEditingController postTextValue = new TextEditingController();
-
-    initState() {
-      userName = auth.user!.displayName.toString();
-    }
-
+    String jobTypeNew = ref.watch(jobTypeNewPost);
+    String cityValue = ref.watch(cityNewPost);
+    String user = ref.watch(currentUser);
     return Center(
       child: Padding(
         padding: const EdgeInsets.all(20.0),
@@ -53,17 +44,17 @@ class _NewPostPageState extends State<NewPostPage> {
               height: 20,
             ),
             const AutoCompleteField(),
+            DropDownRiver(),
             ElevatedButton(
                 onPressed: () {
                   var idGenerator = Uuid().v4();
                   setState(() {
-                    cityValue = controller.cityCreatePost;
-                    print({'$cityValue cityvalue'});
-                    post.createPost(map: {
+                    PostService().createPost(map: {
                       'postText': postTextValue.text,
                       'city': cityValue,
+                      'jobType': jobTypeNew,
                       'postValid': true,
-                      'userName': userName,
+                      'userName': user,
                       'postId': idGenerator,
                       'postDate': Timestamp.fromDate(DateTime.now()),
                     }, postId: idGenerator);

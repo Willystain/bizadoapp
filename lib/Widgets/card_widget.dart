@@ -1,7 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:intl/intl.dart';
 
 class buildCard extends StatelessWidget {
@@ -27,13 +25,13 @@ class buildCard extends StatelessWidget {
         child: Column(
           children: [
             ListTile(
-              leading: CircleAvatar(),
+              leading: const CircleAvatar(),
               title: Text(jobType),
               subtitle: Text(city),
-              trailing: Icon(Icons.favorite_outline),
+              trailing: const Icon(Icons.favorite_outline),
             ),
             Container(
-              padding: EdgeInsets.all(16.0),
+              padding: const EdgeInsets.all(16.0),
               alignment: Alignment.centerLeft,
               child: Text(postText),
             ),
@@ -49,9 +47,8 @@ class buildCard extends StatelessWidget {
                         onPressed: () {/* ... */},
                       ),
                       TextButton(
-                        child: const Text('LEARN MORE'),
-                        onPressed: () {/* ... */},
-                      )
+                          child: const Text('LEARN MORE'),
+                          onPressed: () async {})
                     ],
                   ),
                 ],
@@ -62,16 +59,18 @@ class buildCard extends StatelessWidget {
   }
 
   calculateDifference(DateTime date) {
+    var f = DateFormat('HH:mm');
     DateTime now = DateTime.now();
     int result = DateTime(date.year, date.month, date.day)
         .difference(DateTime(now.year, now.month, now.day))
         .inDays;
-
-    String resultado = result.abs().toString() + ' dias';
+    String resultado = '${result.abs()} dias';
     if (result < -2) {
       return resultado;
-    } else {
-      return null;
+    } else if (result == 0) {
+      return 'Hoje ${f.format(date)}';
+    } else if (result == -1) {
+      return 'Ontem ${f.format(date)}';
     }
   }
 }

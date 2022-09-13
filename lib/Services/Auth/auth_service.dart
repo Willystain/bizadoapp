@@ -5,8 +5,6 @@ import 'package:bizado/models/user_model.dart' as model;
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 
-import '../../models/post_model.dart';
-
 class AuthService with ChangeNotifier {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final userStream = FirebaseAuth.instance.authStateChanges();

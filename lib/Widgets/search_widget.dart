@@ -1,10 +1,10 @@
 import 'package:bizado/Pages/feed_page.dart';
-import 'package:bizado/Services/global_variables.dart';
 import 'package:bizado/Services/post_service.dart';
 import 'package:bizado/main.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../Services/setup_riverPod.dart';
 
 import '../Services/city_service.dart';
 
@@ -16,9 +16,6 @@ class SearchBar extends ConsumerStatefulWidget {
 class _SearchBarState extends ConsumerState<SearchBar> {
   @override
   Widget build(BuildContext context) {
-    // final provider = Provider.of<GlobalVariables>(context);
-    // final post = Provider.of<PostService>(context);
-
     FocusScopeNode currentFocus = FocusScope.of(context);
     bool toggle = false;
 
@@ -106,17 +103,20 @@ class _SearchBarState extends ConsumerState<SearchBar> {
                             ),
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(9),
-                              borderSide: BorderSide(color: Colors.grey[300]!),
+                              borderSide:
+                                  BorderSide(color: Colors.deepOrange[300]!),
                             ),
                             focusedBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(9),
-                              borderSide: BorderSide(color: Colors.grey[300]!),
+                              borderSide:
+                                  BorderSide(color: Colors.deepOrange[300]!),
                             ),
                             enabledBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(9),
-                              borderSide: BorderSide(color: Colors.grey[300]!),
+                              borderSide:
+                                  BorderSide(color: Colors.deepOrange[300]!),
                             ),
-                            hintText: "Qual cidade?"),
+                            hintText: "Cidade"),
                       ),
                     ),
                   ),

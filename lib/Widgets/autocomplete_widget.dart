@@ -1,23 +1,24 @@
 import 'package:bizado/Pages/newPost_page.dart';
-import 'package:bizado/Services/global_variables.dart';
+import 'package:bizado/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../Services/setup_riverPod.dart';
 
 import '../Services/city_service.dart';
 
-class AutoCompleteField extends StatefulWidget {
+class AutoCompleteField extends ConsumerStatefulWidget {
   const AutoCompleteField({Key? key}) : super(key: key);
 
   @override
-  State<AutoCompleteField> createState() => _AutoCompleteFieldState();
+  ConsumerState<AutoCompleteField> createState() => _AutoCompleteFieldState();
 }
 
-class _AutoCompleteFieldState extends State<AutoCompleteField> {
+class _AutoCompleteFieldState extends ConsumerState<AutoCompleteField> {
   @override
   Widget build(BuildContext context) {
-    final controller = Provider.of<GlobalVariables>(context);
     return Autocomplete(
       optionsBuilder: (TextEditingValue textEditingValue) {
         if (textEditingValue == '') {
@@ -53,8 +54,7 @@ class _AutoCompleteFieldState extends State<AutoCompleteField> {
         );
       },
       onSelected: (String city) {
-        controller.transformCityCreatePost(city);
-        controller.cityCreatePost;
+        ref.read(cityNewPost.notifier).state = city;
       },
       optionsMaxHeight: 500,
     );

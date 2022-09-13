@@ -24,9 +24,9 @@ class HomeController extends StatelessWidget {
           );
         } else if (snapshot.hasData) {
           if (AuthService().user!.emailVerified) {
-            return HomePage();
+            return const HomePage();
           } else {
-            return CreateName();
+            return const CreateName();
           }
         } else {
           return const Center(child: LoginPage());

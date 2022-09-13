@@ -1,10 +1,10 @@
 import 'package:bizado/Services/Auth/auth_service.dart';
-import 'package:bizado/Services/global_variables.dart';
 import 'package:bizado/Services/post_service.dart';
 import 'package:bizado/Widgets/card_widget.dart';
 import 'package:bizado/Widgets/search_widget.dart';
 import 'package:bizado/main.dart';
 import 'package:flutter/material.dart';
+import '../Services/setup_riverPod.dart';
 import '../models/post_model.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
